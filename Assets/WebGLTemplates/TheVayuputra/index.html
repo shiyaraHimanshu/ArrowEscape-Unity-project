@@ -2,123 +2,307 @@
 <html lang="en-us">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>{{{ PRODUCT_NAME }}}</title>
-	<style>
-		html, body {background:{{{ BACKGROUND || '#000' }}};width:100%;height:100%;overflow:visible;padding:0;margin:0;}
-		div#container {background:transparent !important;position:absolute;}
-		div#container canvas {position:absolute;}
-		div#container canvas[data-pixel-art="true"] {position:absolute;image-rendering:optimizeSpeed;image-rendering:-webkit-crisp-edges;image-rendering:-moz-crisp-edges;image-rendering:-o-crisp-edges;image-rendering:crisp-edges;image-rendering:-webkit-optimize-contrast;image-rendering:optimize-contrast;image-rendering:pixelated;-ms-interpolation-mode:nearest-neighbor;}
-		div#loading-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s ease-out;}
-		div#loading-overlay.hidden {opacity:0;pointer-events:none;}
-		div#loading-overlay img {max-width:200px;max-height:200px;margin-bottom:40px;animation:fadeIn 0.5s ease-in;}
-		div#loading-text {color:{{{ LOADINGCOLOR || '#fff' }}};font-size:20px;font-family:Arial,sans-serif;text-align:center;}
-		div#progress-bar-container {width:300px;height:20px;background:rgba(255,255,255,0.2);border-radius:10px;margin-top:20px;overflow:hidden;}
-		div#progress-bar {height:100%;background:{{{ LOADINGCOLOR || '#00ff00' }}};width:0%;transition:width 0.1s linear;border-radius:10px;}
-		@keyframes fadeIn {from {opacity:0;} to {opacity:1;}}
-	</style>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!-- CRITICAL: Viewport must be static in <head>, NOT added dynamically via JS -->
+  <meta name="viewport"
+    content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+  <title>Unity Web Player | Arrow Escape</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <!-- Adgram SDK -->
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  <style>
+    /* Ensure full-screen coverage on mobile WebView (Telegram, etc.) */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #1a1a2e;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    #unity-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1a1a2e;
+    }
+
+    #unity-canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      background: #1a1a2e;
+    }
+
+    /* Custom Loader Styles */
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #2e2e4a 0%, #1a1a2e 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .loader-content {
+      text-align: center;
+      width: 100%;
+      max-width: 450px;
+      padding: 40px;
+      position: relative;
+    }
+
+    .logo-container h1 {
+      font-size: 2.8rem;
+      letter-spacing: 6px;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+    }
+
+    .logo-container .highlight {
+      color: #00f2ff;
+      position: relative;
+    }
+
+    .arrow-animation {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    .arrow-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 12px #00f2ff);
+      animation: arrow-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes arrow-bounce {
+      0%, 100% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+    }
+
+    .progress-section {
+      margin-top: 40px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    #progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #00f2ff, #00ff88, #bb88ff);
+      background-size: 200% 100%;
+      animation: gradient-flow 3s linear infinite;
+      box-shadow: 0 0 20px rgba(0, 242, 255, 0.8);
+      border-radius: 20px;
+      transition: width 0.3s ease-out;
+    }
+
+    @keyframes gradient-flow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      font-weight: 700;
+    }
+
+    #progress-text {
+      color: #00f2ff;
+      font-size: 1.4rem;
+      text-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
+    }
+
+    .loading-label {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    #unity-warning {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1100;
+    }
+
+    #unity-footer {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
-	<div id="loading-overlay">
-		<img id="game-logo" src="loadingLogo.png" alt="Game Logo">
-		<div id="loading-text">
-			<div>Loading</div>
-			<div id="loading-percentage">0%</div>
-			<div id="progress-bar-container">
-				<div id="progress-bar"></div>
-			</div>
-		</div>
-	</div>
-	<div id="container">
-		<canvas id="game-canvas" data-pixel-art="{{{ OPTIMIZE_FOR_PIXEL_ART }}}"></canvas>
-		<script src="Build/{{{ LOADER_FILENAME }}}"></script>
-		<script>
-			var canvas = document.querySelector("#game-canvas");
-			var config =
-			{
-				dataUrl: "Build/{{{ DATA_FILENAME }}}",
-				frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
-				codeUrl: "Build/{{{ CODE_FILENAME }}}",
-#if MEMORY_FILENAME
-				memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
-#endif
-#if SYMBOLS_FILENAME
-				symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
-#endif
-				streamingAssetsUrl: "StreamingAssets",
-				companyName: "{{{ COMPANY_NAME }}}",
-				productName: "{{{ PRODUCT_NAME }}}",
-				productVersion: "{{{ PRODUCT_VERSION }}}",
-			};
-			var scaleToFit;
-			try
-			{
-				scaleToFit = !!JSON.parse("{{{ SCALE_TO_FIT }}}");
-			} catch (e) {
-				scaleToFit = true;
-			}
-			
-			function progressHandler(progress)
-			{
-				var percent = Math.round(progress * 100);
-				var percentStr = percent + '%';
-				document.getElementById('loading-percentage').textContent = percentStr;
-				document.getElementById('progress-bar').style.width = percentStr;
-			}
-			
-			function onResize()
-			{
-				var container = canvas.parentElement;
-				var w;
-				var h;
+  <div id="unity-container" class="unity-desktop">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    
+    <div id="loading-overlay">
+      <div class="loader-content">
+        <div class="arrow-animation">
+          <svg class="arrow-svg" viewBox="0 0 100 100">
+            <path d="M10 50 L90 50 M60 20 L90 50 L60 80" 
+                  stroke="#00f2ff" 
+                  stroke-width="10" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  fill="none" />
+          </svg>
+        </div>
+        <div class="logo-container">
+          <h1>ESCAPE <span class="highlight">ARROW</span></h1>
+        </div>
+        <div class="progress-section">
+          <div class="progress-bar-bg">
+            <div id="progress-bar-fill"></div>
+          </div>
+          <div class="progress-info">
+            <span class="loading-label">Initializing...</span>
+            <span id="progress-text">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="unity-warning"> </div>
+    <div id="unity-footer">
+      <div id="unity-logo-title-footer"></div>
+      <div id="unity-fullscreen-button"></div>
+      <div id="unity-build-title">Arrow Escape</div>
+    </div>
+  </div>
+  <script>
+    var canvas = document.querySelector("#unity-canvas");
 
-				if (scaleToFit)
-				{
-					w = window.innerWidth;
-					h = window.innerHeight;
+    function unityShowBanner(msg, type) {
+      var warningBanner = document.querySelector("#unity-warning");
+      function updateBannerVisibility() {
+        warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+      }
+      var div = document.createElement('div');
+      div.innerHTML = msg;
+      warningBanner.appendChild(div);
+      if (type == 'error') div.style = 'background: red; padding: 10px;';
+      else {
+        if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+        setTimeout(function () {
+          warningBanner.removeChild(div);
+          updateBannerVisibility();
+        }, 5000);
+      }
+      updateBannerVisibility();
+    }
 
-					var r = {{{ HEIGHT }}} / {{{ WIDTH }}};
-					if (w * r > window.innerHeight)
-					{
-						w = Math.min(w, Math.ceil(h / r));
-					}
-					h = Math.floor(w * r);
-				} 
-				else
-				{
-					w = {{{ WIDTH }}};
-					h = {{{ HEIGHT }}};
-				}
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-				container.style.width = canvas.style.width = w + "px";
-				container.style.height = canvas.style.height = h + "px";
-				container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
-				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
-			}
-			
-			createUnityInstance(canvas, config, progressHandler).then(function (instance)
-			{
-				canvas = instance.Module.canvas;
-				onResize();
-				document.getElementById('loading-overlay').classList.add('hidden');
-			});
-			
-			window.addEventListener('resize', onResize);
-			onResize();
+    // Apply mobile container class
+    if (isMobile) {
+      document.querySelector("#unity-container").className = "unity-mobile";
+      canvas.className = "unity-mobile";
+    }
 
-			// Style for mobile devices.
-			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
-			{
-				// Fill the whole browser client area with the game canvas.
-				const meta = document.createElement('meta');
-				meta.name = 'viewport';
-				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-				document.getElementsByTagName('head')[0].appendChild(meta);
-			}
-		</script>
-	</div>
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/ArrowEscape.loader.js";
+    var config = {
+      arguments: [],
+      dataUrl: buildUrl + "/ArrowEscape.data.br",
+      frameworkUrl: buildUrl + "/ArrowEscape.framework.js.br",
+      codeUrl: buildUrl + "/ArrowEscape.wasm.br",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "UnderCityGame",
+      productName: "Arrow Escape",
+      productVersion: "1",
+      showBanner: unityShowBanner,
+      // Helps mobile GPUs (Telegram WebView) initialize WebGL properly
+      webglContextAttributes: {
+        preserveDrawingBuffer: true,
+        powerPreference: "default",
+        alpha: false,
+        antialias: false,
+        depth: true,
+        stencil: false,
+      },
+    };
+
+    document.querySelector("#loading-overlay").style.display = "flex";
+
+    // Handle WebGL context loss (common in Telegram mobile WebView)
+    canvas.addEventListener("webglcontextlost", function (e) {
+      e.preventDefault();
+      console.warn("WebGL context lost — will attempt restore.");
+    }, false);
+
+    canvas.addEventListener("webglcontextrestored", function () {
+      console.log("WebGL context restored.");
+    }, false);
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        const percentage = Math.round(progress * 100);
+        document.querySelector("#progress-bar-fill").style.width = percentage + "%";
+        document.querySelector("#progress-text").textContent = percentage + "%";
+        
+        if (percentage > 90) {
+            document.querySelector(".loading-label").textContent = "Starting...";
+        } else if (percentage > 10) {
+            document.querySelector(".loading-label").textContent = "Loading Assets...";
+        }
+      }).then((unityInstance) => {
+        document.querySelector("#loading-overlay").style.opacity = "0";
+        setTimeout(() => {
+          document.querySelector("#loading-overlay").style.display = "none";
+        }, 500);
+
+        // SetFullscreen causes black screen in Telegram mobile WebView — skip on mobile
+        if (!isMobile) {
+          unityInstance.SetFullscreen(1);
+        }
+
+      }).catch((message) => {
+        alert(message);
+      });
+    };
+
+    document.body.appendChild(script);
+
+  </script>
 </body>
 
 </html>

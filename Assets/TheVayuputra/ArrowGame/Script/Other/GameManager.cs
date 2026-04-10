@@ -24,7 +24,7 @@ namespace ArrowGame
             Application.targetFrameRate = 60;
             Screen.sleepTimeout =SleepTimeout.NeverSleep;
             UiManager.Instance.SetupUI();
-            yield return new WaitForSeconds(1f);
+            yield return null;
             //hide loading screen
 
             LevelManager.Instance.LoadCurrentLevel();

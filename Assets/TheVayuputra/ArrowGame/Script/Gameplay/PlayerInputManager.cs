@@ -42,6 +42,8 @@ namespace ArrowGame
         private Vector3 dragStartPos;
         private Vector3 lastPointerPos;
         private bool isCameraDragging;
+        private bool inputStartedOverUI;
+        private int lastTouchCount;
 
         float dpi => Screen.dpi > 0 ? Screen.dpi : 160f; // 160 = Android mdpi baseline
         public ObservableValue<bool> enableResetCameraUI = new ObservableValue<bool>(false);
@@ -166,9 +168,6 @@ namespace ArrowGame
         }
         void HandleCameraMovement()
         {
-            if (IsPointerOverUI())
-                return;
-
             Vector2 currentPointerPos;
             bool pointerDown = false;
             bool pointerHeld = false;
@@ -180,14 +179,41 @@ namespace ArrowGame
             pointerHeld = Input.GetMouseButton(0);
             pointerUp = Input.GetMouseButtonUp(0);
 #else
-    if (Input.touchCount != 1) return;
+            int touchCount = Input.touchCount;
+            if (touchCount != 1) {
+                if (touchCount == 0) inputStartedOverUI = false;
+                lastTouchCount = touchCount;
+                return;
+            }
 
-    Touch t = Input.GetTouch(0);
-    currentPointerPos = t.position;
-    pointerDown = t.phase == TouchPhase.Began;
-    pointerHeld = t.phase == TouchPhase.Moved;
-    pointerUp = t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled;
+            Touch t = Input.GetTouch(0);
+            currentPointerPos = t.position;
+
+            // If we just transitioned to 1 touch (from 0 or 2+), reset drag state to avoid "jumping"
+            if (lastTouchCount != 1)
+            {
+                dragStartPos = currentPointerPos;
+                lastPointerPos = currentPointerPos;
+                isCameraDragging = false;
+                inputStartedOverUI = IsPointerOverUI();
+            }
+            lastTouchCount = 1;
+
+            pointerDown = t.phase == TouchPhase.Began;
+            pointerHeld = t.phase == TouchPhase.Moved || t.phase == TouchPhase.Stationary;
+            pointerUp = t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled;
 #endif
+
+            if (pointerDown)
+            {
+                inputStartedOverUI = IsPointerOverUI();
+            }
+
+            if (inputStartedOverUI)
+            {
+                if (pointerUp) inputStartedOverUI = false;
+                return;
+            }
 
             if (pointerDown)
             {
@@ -294,17 +320,18 @@ namespace ArrowGame
 
             float zoomFactor = targetCameraZoom / previousZoom;
             Vector3 dir = focusPoint - targetCameraPosition;
+            dir.y = 0; // Ensure no vertical drift
 
             targetCameraPosition += dir * (1f - zoomFactor);
         }
         void ZoomFromCenter(float previousZoom)
         {
-            Vector3 focusPoint = targetCamera.transform.position;
-            focusPoint.y = targetCamera.transform.position.y;
-
+            // Center zoom for ortho doesn't require position changes if using targetCameraPosition as reference
+            // This method is kept for logical consistency but won't shift position
+            Vector3 focusPoint = targetCameraPosition;
+            
             float zoomFactor = targetCameraZoom / previousZoom;
 
-            // Move camera towards center (no lateral shift)
             Vector3 dir = focusPoint - targetCameraPosition;
             targetCameraPosition += dir * (1f - zoomFactor);
         }
@@ -534,12 +561,11 @@ namespace ArrowGame
             if (ignoreSliderCallback) return;
             if (inputBlocked) return;
 
-            float previousZoom = targetCameraZoom;
-
             targetCameraZoom = GetZoomFromNormalized(sliderValue);
             targetCameraZoom = Mathf.Clamp(targetCameraZoom, minCameraZoom, maxCameraZoom);
 
-            ZoomFromCenter(previousZoom);
+            // Zooming from center slider shouldn't move the camera in an ortho setup
+            // This avoids the drift and "jumping" issue reported.
         }
         void UpdateZoomSlider()
         {
