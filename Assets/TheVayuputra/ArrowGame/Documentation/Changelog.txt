@@ -1,0 +1,25 @@
+Arrow Escape – Changelog
+
+Version 1.02.01
+ - Add : Add Zoom Slider
+ - Add : New Levels
+ - Change : Arrow click base on OnMouseUpAsButton
+ - Fix : LevelEditor Arrow Validation 
+
+
+Version 1.0.1
+ - Add : Drag to create arrow in Level editor
+ - Add : ShowInterstitial at GameOver
+ - Fix : Background Music not played in loop
+
+
+Version 1.0.0
+- Initial release
+- Complete playable puzzle game template
+- Grid-based arrow path gameplay
+- Built-in level editor
+- Level progression & difficulty system
+- Life / heart system
+- Hint system (expandable)
+- Clean UI and feedback effects
+- Mobile optimized (Android)

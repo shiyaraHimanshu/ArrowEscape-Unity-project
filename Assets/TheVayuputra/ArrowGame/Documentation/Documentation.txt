@@ -1,0 +1,68 @@
+Arrow Escape – Documentation
+
+1. Project Overview
+Arrow Escape is a complete mobile puzzle game template developed using Unity.
+It includes all core gameplay systems, UI, and tools required to create and
+publish a grid-based arrow puzzle game.
+
+    Required dependencies
+    1) ParticleEffectForUGUI (mob-sakai)
+
+    Add via Unity Package Manager (UPM) by URL:
+    Open Unity Editor → Window → Package Manager
+    Click the + (plus) button in the top-left, choose "Add package from git URL…"
+    Paste:
+    https://github.com/mob-sakai/ParticleEffectForUGUI.git
+    Click Add and wait for Unity to install the package
+    Alternatively, clone the repository and copy the package files into your project, but UPM via git is recommended.
+
+    2) DOTween (Demigiant)
+    DOTween is a runtime tweening library commonly used for animations.
+    Recommended install methods:
+    Asset Store: Open the Asset Store or Package Manager (Asset Store tab), search for "DOTween", import the DOTween package.
+    Manual: Download from http://dotween.demigiant.com
+    (or the Asset Store) and import the .unitypackage via
+    Assets → Import Package → Custom Package...
+    After importing DOTween:
+    Open the DOTween Utility Panel:
+    Tools → Demigiant → DOTween Utility Panel
+
+Click "Setup DOTween" to generate the runtime assemblies and setup shortcuts.
+
+2. Unity Version
+Recommended Unity Version: 6.3 LTS
+
+3. Main Scenes
+- MainGameplay.unity : Main gameplay scene
+- LevelEditor.unity  : Scene for creating and editing levels
+
+4. Getting Started
+- Open the project in Unity
+- Load MainGameplay.unity
+- Press Play to test the game
+- Open LevelEditor.unity to create or modify levels
+
+5. Level Editor
+- Create unlimited levels inside Unity
+- No coding required for level design
+- Levels are saved and loaded by the LevelManager
+
+6. Customization
+You can customize:
+- UI colors and themes
+- Grid size and difficulty
+- Hint settings
+- Life / heart values
+- Sound and feedback settings
+
+Most changes can be done via the Inspector or configuration scripts.
+
+7. Build Notes
+- Designed for mobile portrait orientation
+- Tested on Android
+- iOS builds may require minor configuration changes
+
+8. Support
+For help or questions:
+Email: vayuputra.developer@gmail.com
+Discord: https://discord.gg/tDmUeJr7CD

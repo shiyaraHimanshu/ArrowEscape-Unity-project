@@ -1,0 +1,1725 @@
+{
+  "GridXSize": 42,
+  "GridYSize": 28,
+  "Arrows": [
+    {
+      "Indices": [
+        99,
+        100,
+        101
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        839,
+        797,
+        755,
+        713,
+        671,
+        629
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        1150,
+        1108,
+        1109,
+        1067,
+        1068,
+        1026,
+        1027
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        985,
+        986,
+        987,
+        1029
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        1030,
+        1072,
+        1073,
+        1115,
+        1116,
+        1158
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        102,
+        103,
+        104,
+        105
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        106,
+        107,
+        108,
+        109
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        587,
+        545,
+        503,
+        461
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        714,
+        672,
+        630,
+        588,
+        546,
+        504,
+        462,
+        420
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        1146,
+        1147,
+        1148,
+        1149
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        1166,
+        1165,
+        1164,
+        1163,
+        1162
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        1161,
+        1160,
+        1159
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        551,
+        552,
+        553,
+        554,
+        596
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        582,
+        581,
+        580
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        697,
+        696
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        618,
+        660,
+        659,
+        658,
+        657,
+        699,
+        698
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        579,
+        621,
+        620,
+        619
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        689,
+        690,
+        691
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        642,
+        643,
+        644,
+        686,
+        687,
+        688
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        597,
+        598,
+        599,
+        641
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        648,
+        649,
+        650
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        607,
+        608,
+        609,
+        610
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        882,
+        883,
+        925,
+        926,
+        968,
+        969,
+        1011
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        719,
+        761,
+        803,
+        804,
+        846,
+        847
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        678,
+        679,
+        680
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        1168,
+        1167
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        1012,
+        1054,
+        1055,
+        1097
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        1143,
+        1144,
+        1145
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        1098,
+        1099,
+        1141,
+        1142
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        1004,
+        1046,
+        1045,
+        1087,
+        1086,
+        1128,
+        1127
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        964,
+        963,
+        1005
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        922,
+        880,
+        881
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        840,
+        798,
+        756
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        952,
+        951,
+        909,
+        908,
+        866,
+        867
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        828,
+        786,
+        787,
+        745
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        876,
+        834,
+        792,
+        791
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        957,
+        956
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        958,
+        916,
+        917,
+        875
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        647,
+        605,
+        606,
+        564,
+        565
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        566,
+        567
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        568,
+        569,
+        611,
+        612,
+        654
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        614,
+        656,
+        655,
+        613
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        571,
+        570,
+        528,
+        527
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        482,
+        524,
+        525,
+        483,
+        484,
+        526
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        603,
+        645,
+        646,
+        604,
+        562,
+        563,
+        521,
+        522,
+        523
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        559,
+        601,
+        602,
+        560,
+        561
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        518,
+        519,
+        520
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        594,
+        636,
+        637,
+        595
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        640,
+        682,
+        681,
+        639,
+        638
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        725,
+        683,
+        684,
+        726
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        769,
+        727,
+        685
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        728,
+        770,
+        812,
+        813,
+        771,
+        729
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        1025,
+        983,
+        984,
+        942,
+        943
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        715,
+        757,
+        799,
+        841,
+        842,
+        884
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        590,
+        632,
+        674,
+        673,
+        631,
+        589,
+        547
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        463,
+        505,
+        506
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        467,
+        509,
+        508,
+        550,
+        592,
+        634,
+        635,
+        593
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        898,
+        899,
+        941,
+        940,
+        982,
+        1024,
+        1066
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        980,
+        981,
+        939
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        945,
+        903,
+        861,
+        819,
+        818,
+        860,
+        902,
+        944
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        733,
+        775,
+        817,
+        859,
+        858,
+        816,
+        774,
+        732
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        900,
+        901
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        730,
+        731
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        734,
+        776,
+        777,
+        735
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        781,
+        739,
+        740,
+        741,
+        742,
+        700
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        661,
+        703,
+        702,
+        701
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        1117,
+        1075,
+        1033,
+        991,
+        990,
+        948
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        1031,
+        1032,
+        1074
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        736,
+        778,
+        820
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        737,
+        738,
+        780,
+        779,
+        821,
+        822
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        865,
+        864,
+        863,
+        862
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        825,
+        824,
+        823
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        949,
+        907,
+        906,
+        905,
+        904
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        946,
+        988
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        947,
+        989
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        464,
+        465,
+        466,
+        424,
+        423,
+        422
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        379,
+        421
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        337,
+        338,
+        380,
+        381
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        676,
+        718,
+        760,
+        759,
+        758,
+        800,
+        801
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        843,
+        844,
+        802
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        927,
+        885,
+        886,
+        887,
+        845
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        1013,
+        971,
+        929
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        928,
+        970
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        888,
+        930,
+        931
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        1056,
+        1014,
+        972,
+        973,
+        1015,
+        1057
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        1100,
+        1058,
+        1059,
+        1017,
+        1016,
+        974
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        1101,
+        1102,
+        1103,
+        1104,
+        1062,
+        1063,
+        1105,
+        1106,
+        1107
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        1064,
+        1065
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        1060,
+        1061
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        1018,
+        1019,
+        1020,
+        1021,
+        1022,
+        1023
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        810,
+        768,
+        767,
+        766,
+        724,
+        723,
+        722
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        889,
+        890,
+        932,
+        933,
+        975,
+        976
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        977,
+        978,
+        979,
+        937
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        938,
+        896,
+        897,
+        855,
+        854,
+        853,
+        811
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        868,
+        826,
+        827
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        695,
+        694,
+        693,
+        692
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        651,
+        652,
+        653
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        382,
+        383,
+        425
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        507,
+        549,
+        548
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        716,
+        717,
+        675,
+        633,
+        591
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        1119,
+        1118,
+        1076,
+        1077,
+        1035,
+        1034,
+        992,
+        950
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        998,
+        997
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        996,
+        995,
+        994,
+        993
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        785,
+        743,
+        744
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        784,
+        783,
+        782
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        664,
+        663,
+        662,
+        704
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        751,
+        750,
+        708,
+        666,
+        665,
+        623,
+        622
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        838,
+        796,
+        754,
+        753,
+        795,
+        837,
+        879,
+        921
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        544,
+        586,
+        628,
+        670,
+        712,
+        711,
+        669,
+        627,
+        585,
+        543,
+        501
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        460,
+        502
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        459,
+        458,
+        500,
+        542,
+        584,
+        626,
+        625,
+        624
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        499,
+        541,
+        583
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        668,
+        667,
+        709,
+        710
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        752,
+        794,
+        793,
+        835,
+        836
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        878,
+        877
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        919,
+        961,
+        1003
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        920,
+        962
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        1044,
+        1002,
+        960,
+        918
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        1085,
+        1043
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        1001,
+        959
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        1126,
+        1084,
+        1042,
+        1000,
+        999,
+        1041,
+        1083,
+        1125
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        1124,
+        1082,
+        1040,
+        1039,
+        1081,
+        1080,
+        1038
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        1123,
+        1122,
+        1121,
+        1079,
+        1037,
+        1036,
+        1078,
+        1120
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        296,
+        297,
+        339
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        256,
+        298,
+        340,
+        341,
+        299,
+        257,
+        215
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        384,
+        385,
+        343,
+        344,
+        302
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        173,
+        174,
+        175,
+        133,
+        134,
+        135
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        220,
+        221,
+        222,
+        180,
+        181,
+        182
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        141,
+        142,
+        143
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        148,
+        147,
+        146,
+        145,
+        144
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        284,
+        283,
+        241,
+        240
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        329,
+        328,
+        286,
+        285
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        373,
+        415,
+        457
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        288,
+        330,
+        372
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        198,
+        197,
+        196
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        153,
+        195
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        152,
+        151,
+        150,
+        149
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        414,
+        413,
+        371,
+        370,
+        369,
+        327
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        376,
+        418,
+        417,
+        375,
+        333,
+        332,
+        374,
+        416
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        248,
+        290,
+        289,
+        331
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        247,
+        246,
+        245,
+        287
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        136,
+        178,
+        177,
+        176,
+        218,
+        219
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        216,
+        258,
+        300,
+        342
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        217,
+        259,
+        301
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        260,
+        261,
+        303
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        137,
+        179
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        96,
+        138,
+        139,
+        97,
+        98,
+        140
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        111,
+        110
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        112,
+        154,
+        155,
+        156,
+        157,
+        199
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        200,
+        242,
+        243,
+        201,
+        202,
+        244
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        205,
+        204,
+        203
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        93,
+        94,
+        95
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        116,
+        158,
+        159,
+        117,
+        118,
+        160,
+        161
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        115,
+        114,
+        113
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        71,
+        70,
+        69,
+        68
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        73,
+        72
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        28,
+        27,
+        26,
+        25,
+        67,
+        66,
+        24,
+        23,
+        65
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        55,
+        56,
+        57,
+        58,
+        16,
+        15
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        17,
+        59,
+        60,
+        18,
+        19,
+        61
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        20,
+        62,
+        63,
+        21,
+        22,
+        64
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        53,
+        54,
+        12,
+        13,
+        14
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        194,
+        193,
+        192
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        191,
+        190,
+        189,
+        188,
+        230,
+        229,
+        187,
+        186
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        228,
+        227,
+        185,
+        184,
+        226,
+        225,
+        183
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        223,
+        224
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        239,
+        238,
+        237
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        236,
+        235,
+        234,
+        233,
+        232,
+        231
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        262,
+        263
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        51,
+        52
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        91,
+        92,
+        50
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        172,
+        214
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        131,
+        132,
+        90
+      ],
+      "ColorIndex": 1
+    },
+    {
+      "Indices": [
+        254,
+        255,
+        213
+      ],
+      "ColorIndex": 2
+    },
+    {
+      "Indices": [
+        456,
+        455,
+        454,
+        412
+      ],
+      "ColorIndex": 3
+    },
+    {
+      "Indices": [
+        426,
+        427,
+        428,
+        386
+      ],
+      "ColorIndex": 4
+    },
+    {
+      "Indices": [
+        468,
+        469
+      ],
+      "ColorIndex": 5
+    },
+    {
+      "Indices": [
+        498,
+        497
+      ],
+      "ColorIndex": 6
+    },
+    {
+      "Indices": [
+        479,
+        480,
+        481
+      ],
+      "ColorIndex": 7
+    },
+    {
+      "Indices": [
+        616,
+        615,
+        573,
+        572
+      ],
+      "ColorIndex": 8
+    },
+    {
+      "Indices": [
+        530,
+        529,
+        487,
+        486,
+        485
+      ],
+      "ColorIndex": 9
+    },
+    {
+      "Indices": [
+        749,
+        707,
+        706,
+        705,
+        747,
+        746
+      ],
+      "ColorIndex": 0
+    },
+    {
+      "Indices": [
+        856,
+        857,
+        815,
+        814,
+        772,
+        773
+      ],
+      "ColorIndex": 1
+    }
+  ]
+}

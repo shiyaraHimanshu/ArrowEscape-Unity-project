@@ -1,0 +1,55 @@
+{
+    "GridXSize": 6,
+    "GridYSize": 4,
+    "Arrows": [
+        {
+            "Indices": [
+                13,
+                7,
+                1
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                14,
+                8,
+                2
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                15,
+                9,
+                3
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                16,
+                10,
+                4
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                0,
+                6,
+                12,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                17,
+                11,
+                5
+            ],
+            "ColorIndex": 1
+        }
+    ]
+}

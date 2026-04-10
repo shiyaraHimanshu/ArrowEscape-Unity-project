@@ -1,0 +1,76 @@
+{
+    "GridXSize": 5,
+    "GridYSize": 6,
+    "Arrows": [
+        {
+            "Indices": [
+                11,
+                6,
+                1
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                10,
+                5,
+                0
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                12,
+                7,
+                2
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                15,
+                16,
+                17,
+                18,
+                19
+            ],
+            "ColorIndex": 1
+        },
+        {
+            "Indices": [
+                13,
+                8,
+                3
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                14,
+                9,
+                4
+            ],
+            "ColorIndex": 0
+        },
+        {
+            "Indices": [
+                24,
+                23,
+                22,
+                21,
+                20
+            ],
+            "ColorIndex": 1
+        },
+        {
+            "Indices": [
+                25,
+                26,
+                27,
+                28,
+                29
+            ],
+            "ColorIndex": 1
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+Arrow Escape – Game Template
+Copyright © The Vayuputra
+
+This asset is provided as a GAME TEMPLATE.
+
+You MAY:
+- Use this template to create and publish your own games
+- Modify, reskin, and customize the content for personal or commercial projects
+
+You MAY NOT:
+- Resell or redistribute this asset as a template
+- Re-upload or share this package on the Unity Asset Store or other marketplaces
+- Share the source files as-is or with minor modifications
+
+This license applies to all scripts, assets, and files included in this package
+unless otherwise stated.
+
+For support or licensing questions:
+Email: vayuputra.developer@gmail.com
+Discord: https://discord.gg/tDmUeJr7CD

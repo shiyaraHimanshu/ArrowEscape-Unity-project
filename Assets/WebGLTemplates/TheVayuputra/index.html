@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>{{{ PRODUCT_NAME }}}</title>
+	<style>
+		html, body {background:{{{ BACKGROUND || '#000' }}};width:100%;height:100%;overflow:visible;padding:0;margin:0;}
+		div#container {background:transparent !important;position:absolute;}
+		div#container canvas {position:absolute;}
+		div#container canvas[data-pixel-art="true"] {position:absolute;image-rendering:optimizeSpeed;image-rendering:-webkit-crisp-edges;image-rendering:-moz-crisp-edges;image-rendering:-o-crisp-edges;image-rendering:crisp-edges;image-rendering:-webkit-optimize-contrast;image-rendering:optimize-contrast;image-rendering:pixelated;-ms-interpolation-mode:nearest-neighbor;}
+		div#loading-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s ease-out;}
+		div#loading-overlay.hidden {opacity:0;pointer-events:none;}
+		div#loading-overlay img {max-width:200px;max-height:200px;margin-bottom:40px;animation:fadeIn 0.5s ease-in;}
+		div#loading-text {color:{{{ LOADINGCOLOR || '#fff' }}};font-size:20px;font-family:Arial,sans-serif;text-align:center;}
+		div#progress-bar-container {width:300px;height:20px;background:rgba(255,255,255,0.2);border-radius:10px;margin-top:20px;overflow:hidden;}
+		div#progress-bar {height:100%;background:{{{ LOADINGCOLOR || '#00ff00' }}};width:0%;transition:width 0.1s linear;border-radius:10px;}
+		@keyframes fadeIn {from {opacity:0;} to {opacity:1;}}
+	</style>
+</head>
+
+<body>
+	<div id="loading-overlay">
+		<img id="game-logo" src="loadingLogo.png" alt="Game Logo">
+		<div id="loading-text">
+			<div>Loading</div>
+			<div id="loading-percentage">0%</div>
+			<div id="progress-bar-container">
+				<div id="progress-bar"></div>
+			</div>
+		</div>
+	</div>
+	<div id="container">
+		<canvas id="game-canvas" data-pixel-art="{{{ OPTIMIZE_FOR_PIXEL_ART }}}"></canvas>
+		<script src="Build/{{{ LOADER_FILENAME }}}"></script>
+		<script>
+			var canvas = document.querySelector("#game-canvas");
+			var config =
+			{
+				dataUrl: "Build/{{{ DATA_FILENAME }}}",
+				frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+				codeUrl: "Build/{{{ CODE_FILENAME }}}",
+#if MEMORY_FILENAME
+				memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+				symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+#endif
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "{{{ COMPANY_NAME }}}",
+				productName: "{{{ PRODUCT_NAME }}}",
+				productVersion: "{{{ PRODUCT_VERSION }}}",
+			};
+			var scaleToFit;
+			try
+			{
+				scaleToFit = !!JSON.parse("{{{ SCALE_TO_FIT }}}");
+			} catch (e) {
+				scaleToFit = true;
+			}
+			
+			function progressHandler(progress)
+			{
+				var percent = Math.round(progress * 100);
+				var percentStr = percent + '%';
+				document.getElementById('loading-percentage').textContent = percentStr;
+				document.getElementById('progress-bar').style.width = percentStr;
+			}
+			
+			function onResize()
+			{
+				var container = canvas.parentElement;
+				var w;
+				var h;
+
+				if (scaleToFit)
+				{
+					w = window.innerWidth;
+					h = window.innerHeight;
+
+					var r = {{{ HEIGHT }}} / {{{ WIDTH }}};
+					if (w * r > window.innerHeight)
+					{
+						w = Math.min(w, Math.ceil(h / r));
+					}
+					h = Math.floor(w * r);
+				} 
+				else
+				{
+					w = {{{ WIDTH }}};
+					h = {{{ HEIGHT }}};
+				}
+
+				container.style.width = canvas.style.width = w + "px";
+				container.style.height = canvas.style.height = h + "px";
+				container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+			}
+			
+			createUnityInstance(canvas, config, progressHandler).then(function (instance)
+			{
+				canvas = instance.Module.canvas;
+				onResize();
+				document.getElementById('loading-overlay').classList.add('hidden');
+			});
+			
+			window.addEventListener('resize', onResize);
+			onResize();
+
+			// Style for mobile devices.
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
+			{
+				// Fill the whole browser client area with the game canvas.
+				const meta = document.createElement('meta');
+				meta.name = 'viewport';
+				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+				document.getElementsByTagName('head')[0].appendChild(meta);
+			}
+		</script>
+	</div>
+</body>
+
+</html>
