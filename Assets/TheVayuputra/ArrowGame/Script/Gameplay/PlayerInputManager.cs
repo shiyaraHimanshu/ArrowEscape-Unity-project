@@ -123,18 +123,22 @@ namespace ArrowGame
         {
             if (isUIDragging)
                 return true;
-            #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-                return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
-            #else
-                if (EventSystem.current == null) return false;
 
+            if (EventSystem.current == null) return false;
+
+            // Handle touch input (Mobile / Touch-enabled WebGL)
+            if (Input.touchCount > 0)
+            {
                 for (int i = 0; i < Input.touchCount; i++)
                 {
                     if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(i).fingerId))
                         return true;
                 }
                 return false;
-            #endif
+            }
+
+            // Handle mouse input (Desktop / Editor)
+            return EventSystem.current.IsPointerOverGameObject();
         }
 
         void UpdateResetCameraObservable()
@@ -173,36 +177,46 @@ namespace ArrowGame
             bool pointerHeld = false;
             bool pointerUp = false;
 
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-            currentPointerPos = Input.mousePosition;
-            pointerDown = Input.GetMouseButtonDown(0);
-            pointerHeld = Input.GetMouseButton(0);
-            pointerUp = Input.GetMouseButtonUp(0);
-#else
-            int touchCount = Input.touchCount;
-            if (touchCount != 1) {
-                if (touchCount == 0) inputStartedOverUI = false;
-                lastTouchCount = touchCount;
-                return;
-            }
-
-            Touch t = Input.GetTouch(0);
-            currentPointerPos = t.position;
-
-            // If we just transitioned to 1 touch (from 0 or 2+), reset drag state to avoid "jumping"
-            if (lastTouchCount != 1)
+            // Dynamic Input Detection: 
+            // Use Touch API if fingers are touching, otherwise use Mouse API.
+            if (Input.touchCount > 0)
             {
-                dragStartPos = currentPointerPos;
-                lastPointerPos = currentPointerPos;
-                isCameraDragging = false;
-                inputStartedOverUI = IsPointerOverUI();
-            }
-            lastTouchCount = 1;
+                int touchCount = Input.touchCount;
+                if (touchCount != 1)
+                {
+                    if (touchCount == 0) inputStartedOverUI = false;
+                    lastTouchCount = touchCount;
+                    return;
+                }
 
-            pointerDown = t.phase == TouchPhase.Began;
-            pointerHeld = t.phase == TouchPhase.Moved || t.phase == TouchPhase.Stationary;
-            pointerUp = t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled;
-#endif
+                Touch t = Input.GetTouch(0);
+                currentPointerPos = t.position;
+
+                // Sync state on transitions (e.g., from 2 fingers down to 1) 
+                // to prevent the camera from "jumping".
+                if (lastTouchCount != 1)
+                {
+                    dragStartPos = currentPointerPos;
+                    lastPointerPos = currentPointerPos;
+                    isCameraDragging = false;
+                    inputStartedOverUI = IsPointerOverUI();
+                }
+                lastTouchCount = 1;
+
+                pointerDown = t.phase == TouchPhase.Began;
+                pointerHeld = t.phase == TouchPhase.Moved || t.phase == TouchPhase.Stationary;
+                pointerUp = t.phase == TouchPhase.Ended || t.phase == TouchPhase.Canceled;
+            }
+            else
+            {
+                // Mouse Logic (including non-touch WebGL)
+                currentPointerPos = Input.mousePosition;
+                pointerDown = Input.GetMouseButtonDown(0);
+                pointerHeld = Input.GetMouseButton(0);
+                pointerUp = Input.GetMouseButtonUp(0);
+
+                lastTouchCount = 0; // Reset tracking
+            }
 
             if (pointerDown)
             {
@@ -227,15 +241,19 @@ namespace ArrowGame
                 float dist = Vector2.Distance(currentPointerPos, dragStartPos);
 
                 if (!isCameraDragging && dist >= dragThreshold)
+                {
                     isCameraDragging = true;
+                    lastPointerPos = currentPointerPos;
+                }
 
                 if (isCameraDragging)
                 {
+                    // Use target values to avoid smoothing lag artifacts
+                    float zoomScale = targetCameraZoom * 2f;
+
                     Vector3 viewportDelta =
                         targetCamera.ScreenToViewportPoint(lastPointerPos) -
                         targetCamera.ScreenToViewportPoint(currentPointerPos);
-
-                    float zoomScale = targetCamera.orthographicSize * 2f;
 
                     Vector3 move = new Vector3(
                         viewportDelta.x * zoomScale,
@@ -244,10 +262,9 @@ namespace ArrowGame
                     );
 
                     targetCameraPosition += move * moveCameraSensitivity;
-
-                    lastPointerPos = currentPointerPos;
                 }
-
+                
+                lastPointerPos = currentPointerPos;
             }
 
             if (pointerUp)
@@ -302,37 +319,47 @@ namespace ArrowGame
 
         void ZoomTowardsPoint(float previousZoom)
         {
-            Vector3 focusPoint;
+            Vector2 screenPos;
 
-            // Mouse
             if (Input.touchCount < 2)
             {
-                focusPoint = targetCamera.ScreenToWorldPoint(Input.mousePosition);
+                screenPos = Input.mousePosition;
             }
             else
             {
-                // Pinch midpoint
                 Touch a = Input.GetTouch(0);
                 Touch b = Input.GetTouch(1);
-                Vector2 mid = (a.position + b.position) * 0.5f;
-                focusPoint = targetCamera.ScreenToWorldPoint(mid);
+                screenPos = (a.position + b.position) * 0.5f;
             }
+
+            // Using direct target values avoids the Smoothing lag loop entirely.
+            Vector2 viewportOffset = new Vector2(
+                (screenPos.x / Screen.width) - 0.5f,
+                (screenPos.y / Screen.height) - 0.5f
+            );
+
+            float camHeight = targetCameraZoom * 2f;
+            float camWidth = camHeight * targetCamera.aspect;
+
+            Vector3 focusPoint = targetCameraPosition + new Vector3(
+                viewportOffset.x * camWidth,
+                0f,
+                viewportOffset.y * camHeight
+            );
 
             float zoomFactor = targetCameraZoom / previousZoom;
             Vector3 dir = focusPoint - targetCameraPosition;
-            dir.y = 0; // Ensure no vertical drift
+            dir.y = 0; 
 
             targetCameraPosition += dir * (1f - zoomFactor);
         }
         void ZoomFromCenter(float previousZoom)
         {
-            // Center zoom for ortho doesn't require position changes if using targetCameraPosition as reference
-            // This method is kept for logical consistency but won't shift position
+            // Center zoom uses target position directly to avoid component lag feedback
+            float zoomFactor = targetCameraZoom / previousZoom;
             Vector3 focusPoint = targetCameraPosition;
             
-            float zoomFactor = targetCameraZoom / previousZoom;
-
-            Vector3 dir = focusPoint - targetCameraPosition;
+            Vector3 dir = focusPoint - targetCameraPosition; 
             targetCameraPosition += dir * (1f - zoomFactor);
         }
 
@@ -561,11 +588,12 @@ namespace ArrowGame
             if (ignoreSliderCallback) return;
             if (inputBlocked) return;
 
+            float previousZoom = targetCameraZoom;
+
             targetCameraZoom = GetZoomFromNormalized(sliderValue);
             targetCameraZoom = Mathf.Clamp(targetCameraZoom, minCameraZoom, maxCameraZoom);
 
-            // Zooming from center slider shouldn't move the camera in an ortho setup
-            // This avoids the drift and "jumping" issue reported.
+            ZoomFromCenter(previousZoom);
         }
         void UpdateZoomSlider()
         {
