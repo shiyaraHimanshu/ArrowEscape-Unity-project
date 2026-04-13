@@ -216,7 +216,6 @@ namespace ArrowGame
         {
             isShowGridLines.Value = !isShowGridLines.Value;
         }
-        [ContextMenu("ShowEscapeArrowHint")]
         public void ShowEscapeArrowHint()
         {
             var arrow = arrowManager.GetEscapedPossibleArrow();
@@ -225,6 +224,44 @@ namespace ArrowGame
                 playerInputManager.GetCameraFocusAtPosition(arrow.headCell.transform.position);
                 arrow.isHighlighted.Value = true;
             }
+        }
+
+        public void UseAgentBooster()
+        {
+            if (solvingLevel != null)
+                StopCoroutine(solvingLevel);
+            solvingLevel = StartCoroutine(ExecutingAgentBooster());
+        }
+
+        IEnumerator ExecutingAgentBooster()
+        {
+            playerInputManager.SetInputBlocked(true);
+            int totalArrows = arrowManager.remandingArrow.Value;
+            int arrowsToClear = 10;
+
+            // If 7 or fewer arrows, clear all to complete the level
+            if (totalArrows <= 7)
+            {
+                arrowsToClear = totalArrows;
+            }
+
+            int cleared = 0;
+            while (cleared < arrowsToClear && arrowManager.remandingArrow.Value > 0)
+            {
+                Arrow nextArrow = arrowManager.GetEscapedPossibleArrow();
+                if (nextArrow)
+                {
+                    nextArrow.EscapeArrow();
+                    cleared++;
+                    yield return new WaitForSeconds(.25f);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            playerInputManager.SetInputBlocked(false);
+            solvingLevel = null;
         }
 
         Coroutine solvingLevel;

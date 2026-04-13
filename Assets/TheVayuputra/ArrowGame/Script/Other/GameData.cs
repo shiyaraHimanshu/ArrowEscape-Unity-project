@@ -9,6 +9,7 @@ namespace ArrowGame
         public const int LevelWonCoins = 20;
         public const int BuyHintCoins = 100;
         public const int BuyGridCoins = 100;
+        public const int BuyAgentStars = 10;
         public const int RewardedAdCoinMultiplier = 3;
         public const int NoInterstitialAdsFirstGameCount = 0; // 0 - No initial grace period
         public const int ShowInterstitialAdsParGameCount = 3; // Show an ad every 3 levels
@@ -54,6 +55,15 @@ namespace ArrowGame
             set
             {
                 PlayerPrefs.SetInt($"{SAVE_PREFIX}GridLineCount", value);
+            }
+        }
+        public static ObservableValue<int> Agent = new ObservableValue<int>(AgentCount, (v) => AgentCount = v);
+        private static int AgentCount
+        {
+            get => PlayerPrefs.GetInt($"{SAVE_PREFIX}AgentCount", 0);
+            set
+            {
+                PlayerPrefs.SetInt($"{SAVE_PREFIX}AgentCount", value);
             }
         }
         public static int CurrentLevel

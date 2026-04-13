@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="TemplateData/style.css">
   <!-- Adgram SDK -->
   <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     /* Ensure full-screen coverage on mobile WebView (Telegram, etc.) */
     * {
@@ -100,8 +101,15 @@
     }
 
     @keyframes arrow-bounce {
-      0%, 100% { transform: translateX(-10px); }
-      50% { transform: translateX(10px); }
+
+      0%,
+      100% {
+        transform: translateX(-10px);
+      }
+
+      50% {
+        transform: translateX(10px);
+      }
     }
 
     .progress-section {
@@ -130,8 +138,13 @@
     }
 
     @keyframes gradient-flow {
-      0% { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 200% 50%;
+      }
     }
 
     .progress-info {
@@ -172,17 +185,13 @@
 <body>
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas" tabindex="-1"></canvas>
-    
+
     <div id="loading-overlay">
       <div class="loader-content">
         <div class="arrow-animation">
           <svg class="arrow-svg" viewBox="0 0 100 100">
-            <path d="M10 50 L90 50 M60 20 L90 50 L60 80" 
-                  stroke="#00f2ff" 
-                  stroke-width="10" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round" 
-                  fill="none" />
+            <path d="M10 50 L90 50 M60 20 L90 50 L60 80" stroke="#00f2ff" stroke-width="10" stroke-linecap="round"
+              stroke-linejoin="round" fill="none" />
           </svg>
         </div>
         <div class="logo-container">
@@ -208,6 +217,106 @@
   </div>
   <script>
     var canvas = document.querySelector("#unity-canvas");
+    var unityInstance = null;
+
+    window.BuyAgentWithStars = function () {
+      // Helper to send logs to Unity's on-screen errorMsg
+      function logToUnity(msg) {
+        console.log('[BuyAgent] ' + msg);
+        if (unityInstance) {
+          try {
+            unityInstance.SendMessage('Canvas-UIManger', 'LogToScreen', '[JS] ' + msg);
+          } catch(e) {
+            console.error('SendMessage failed:', e);
+          }
+        }
+      }
+
+      logToUnity('=== JS BuyAgentWithStars START ===');
+
+      // Step 1: Check Telegram SDK
+      if (typeof Telegram === 'undefined') {
+        logToUnity('ERROR: Telegram object is undefined');
+        return;
+      }
+      if (!Telegram.WebApp) {
+        logToUnity('ERROR: Telegram.WebApp is undefined');
+        return;
+      }
+      logToUnity('Step 1: Telegram.WebApp found OK');
+
+      // Step 2: Get user info
+      var initDataUnsafe = Telegram.WebApp.initDataUnsafe;
+      logToUnity('Step 2: initDataUnsafe = ' + JSON.stringify(initDataUnsafe || 'null').substring(0, 200));
+
+      var user = initDataUnsafe ? initDataUnsafe.user : null;
+      if (!user || !user.id) {
+        logToUnity('ERROR: User ID missing. user=' + JSON.stringify(user || 'null'));
+        return;
+      }
+      logToUnity('Step 3: User ID = ' + user.id);
+
+      // Step 3: Fetch invoice from backend
+      var fetchUrl = 'https://shiyarahimanshu-arrowescape.vercel.app/api/bot?action=createInvoice&chatId=' + user.id;
+      logToUnity('Step 4: Fetching: ' + fetchUrl);
+
+      fetch(fetchUrl)
+        .then(function(response) {
+          logToUnity('Step 5: Response status = ' + response.status);
+          if (!response.ok) {
+            logToUnity('ERROR: HTTP ' + response.status + ' ' + response.statusText);
+          }
+          return response.text(); // Get raw text first
+        })
+        .then(function(rawText) {
+          logToUnity('Step 6: Raw response = ' + rawText.substring(0, 300));
+          var data;
+          try {
+            data = JSON.parse(rawText);
+          } catch(e) {
+            logToUnity('ERROR: JSON parse failed: ' + e.message);
+            return;
+          }
+
+          if (data.error) {
+            logToUnity('ERROR from server: ' + data.error);
+            return;
+          }
+
+          if (!data.invoiceLink) {
+            logToUnity('ERROR: No invoiceLink in response. Keys: ' + Object.keys(data).join(', '));
+            return;
+          }
+
+          logToUnity('Step 7: Invoice link received. Opening...');
+
+          try {
+            Telegram.WebApp.openInvoice(data.invoiceLink, function (status) {
+              logToUnity('Step 8: Payment callback. Status = ' + status);
+              if (status === 'paid') {
+                logToUnity('Step 9: PAID! Calling RewardAgent...');
+                if (unityInstance) {
+                  unityInstance.SendMessage('Canvas-UIManger', 'RewardAgent');
+                  logToUnity('Step 10: RewardAgent SendMessage sent');
+                } else {
+                  logToUnity('ERROR: unityInstance is null at payment callback');
+                }
+              } else if (status === 'cancelled') {
+                logToUnity('Payment cancelled by user');
+              } else if (status === 'failed') {
+                logToUnity('ERROR: Payment failed');
+              } else {
+                logToUnity('Unknown payment status: ' + status);
+              }
+            });
+          } catch(e) {
+            logToUnity('ERROR: openInvoice threw: ' + e.message);
+          }
+        })
+        .catch(function(err) {
+          logToUnity('ERROR: Fetch failed: ' + err.message);
+        });
+    };
 
     function unityShowBanner(msg, type) {
       var warningBanner = document.querySelector("#unity-warning");
@@ -278,13 +387,14 @@
         const percentage = Math.round(progress * 100);
         document.querySelector("#progress-bar-fill").style.width = percentage + "%";
         document.querySelector("#progress-text").textContent = percentage + "%";
-        
+
         if (percentage > 90) {
-            document.querySelector(".loading-label").textContent = "Starting...";
+          document.querySelector(".loading-label").textContent = "Starting...";
         } else if (percentage > 10) {
-            document.querySelector(".loading-label").textContent = "Loading Assets...";
+          document.querySelector(".loading-label").textContent = "Loading Assets...";
         }
-      }).then((unityInstance) => {
+      }).then((instance) => {
+        unityInstance = instance;
         document.querySelector("#loading-overlay").style.opacity = "0";
         setTimeout(() => {
           document.querySelector("#loading-overlay").style.display = "none";

@@ -12,6 +12,30 @@ namespace ArrowGame
 
     public class UiManager : MonoBehaviour
     {
+        public TextMeshProUGUI errorMsg;
+
+        /// <summary>
+        /// Appends a timestamped log line to the on-screen errorMsg text.
+        /// Use this instead of Debug.Log when debugging in Telegram browser.
+        /// </summary>
+        public void LogToScreen(string msg)
+        {
+            Debug.Log("[SCREEN] " + msg);
+            if (errorMsg != null)
+            {
+                // Keep only last 15 lines to avoid overflow
+                string timestamp = System.DateTime.Now.ToString("HH:mm:ss");
+                string newLine = $"[{timestamp}] {msg}";
+                string current = errorMsg.text ?? "";
+                string[] lines = current.Split('\n');
+                if (lines.Length > 15)
+                {
+                    // Keep last 14 lines + new one
+                    current = string.Join("\n", lines, lines.Length - 14, 14);
+                }
+                errorMsg.text = current + (string.IsNullOrEmpty(current) ? "" : "\n") + newLine;
+            }
+        }
         public LoadingManager loadingManager;
         [Header("Heart Setup")]
         [SerializeField] private GameObject heartPrefab;
@@ -34,6 +58,11 @@ namespace ArrowGame
         public Button btn2xRewards;
         public Button btnContinue;
 
+
+        [Header("Agent Booster Panel")]
+        public VayuPopup agentBoosterPanel;
+        public Button btnBuyAgent;
+
         [Header("Level Failed Panel")]
         public VayuPopup levelFailedPanel;
         public Button btnPlayOn;
@@ -45,7 +74,8 @@ namespace ArrowGame
         [Header("Boosters")]
         public TextMeshProUGUI totalHintText;
         public TextMeshProUGUI totalGridLineText;
-        public Button btnHint, btnGridLines;
+        public TextMeshProUGUI totalAgentText;
+        public Button btnHint, btnGridLines, btnAgent;
         public VayuPopup hintPopup;
         public Button btnBuyHint;
         public Button btnWatchAd_Hint;
@@ -54,6 +84,7 @@ namespace ArrowGame
         public Button btnWatchAd_Gridline;
         public GameObject gridCounterObj;
         public DamageOverlayUI damageOverlayUI;
+        public TMPro.TextMeshProUGUI debugStatusText;
         
         [Header("Toast View")]
         public CanvasGroup toastView;
@@ -76,6 +107,7 @@ namespace ArrowGame
             GameData.Coins.AddListener(UpdateTotalCoins);
             GameData.Hint.AddListener(UpdateTotalHintArrow);
             GameData.GridLines.AddListener(UpdateTotalHintGridLine);
+            GameData.Agent.AddListener(UpdateTotalAgentCount);
             levelManager.currentLife.AddListener(UpdateLife);
             levelManager.arrowManager.remandingArrow.AddListener(UpdateArrow);
             levelManager.OnLevelCompleted += OnLevelCompleted;
@@ -102,6 +134,8 @@ namespace ArrowGame
             btnHint.onClick.AddListener(OnHintClick);
             btnGridLines.onClick.RemoveAllListeners();
             btnGridLines.onClick.AddListener(OnGridLineClick);
+            btnAgent.onClick.RemoveAllListeners();
+            btnAgent.onClick.AddListener(OnAgentClick);
             btnBuyHint.onClick.RemoveAllListeners();
             btnBuyHint.onClick.AddListener(OnBuyHinFromCoins);
             btnWatchAd_Hint.onClick.RemoveAllListeners();
@@ -110,10 +144,14 @@ namespace ArrowGame
             btnBuyGridline.onClick.AddListener(OnBuyGridLineFromCoins);
             btnWatchAd_Gridline.onClick.RemoveAllListeners();
             btnWatchAd_Gridline.onClick.AddListener(OnBuyGridLineFromAds);
+            btnBuyAgent.onClick.RemoveAllListeners();
+            btnBuyAgent.onClick.AddListener(OnBuyAgentFromStars);
+
             levelManager.playerInputManager.SetupZoomSlider(zoomSlider);
             UpdateTotalCoins(GameData.Coins.Value);
             UpdateTotalHintArrow(GameData.Hint.Value);
             UpdateTotalHintGridLine(GameData.GridLines.Value);
+            UpdateTotalAgentCount(GameData.Agent.Value);
             SpawnHearts();
         }
 
@@ -243,6 +281,10 @@ namespace ArrowGame
         void UpdateTotalHintGridLine(int count)
         {
             totalGridLineText.text = count > 0 ? count.ToString() : "+";
+        }
+        void UpdateTotalAgentCount(int count)
+        {
+            totalAgentText.text = count > 0 ? count.ToString() : "+";
         }
         void OnLevelInit()
         {
@@ -400,6 +442,23 @@ namespace ArrowGame
             GameManager.Instance.ReportEvent("SHOW_GRID_LINE_POPUP");
             OpenPopup(gridlinePopup, true);
         }
+        void OnAgentClick()
+        {
+            LogToScreen("OnAgentClick called");
+            GameManager.Instance.ReportEvent("CLICK_AGENT");
+            if (GameData.Agent.Value > 0)
+            {
+                LogToScreen($"Agent available: {GameData.Agent.Value}. Using it.");
+                GameData.Agent.Value--;
+                levelManager.UseAgentBooster();
+                GameManager.Instance.ReportEvent("USE_AGENT");
+                return;
+            }
+            LogToScreen("No Agent owned. Opening buy popup.");
+            btnBuyAgent.interactable = true;
+            GameManager.Instance.ReportEvent("SHOW_AGENT_POPUP");
+            OpenPopup(agentBoosterPanel, true);
+        }
 
         void OnBuyHinFromCoins()
         {
@@ -488,6 +547,75 @@ namespace ArrowGame
                 );
             GameData.GridLines.Value++;
             ClosePopup(gridlinePopup);
+        }
+
+        public void UpdateDebugStatus(string status)
+        {
+            LogToScreen("[JS→Unity] " + status);
+            if (debugStatusText != null)
+            {
+                debugStatusText.text = "Status: " + status;
+            }
+        }
+
+        void OnBuyAgentFromStars()
+        {
+            LogToScreen("=== OnBuyAgentFromStars START ===");
+            LogToScreen("Step 1: Button clicked in Unity");
+
+            try
+            {
+                GameManager.Instance.ReportEvent("CLICK_BUY_AGENT_BY_STARS");
+                LogToScreen("Step 2: ReportEvent sent");
+            }
+            catch (System.Exception e)
+            {
+                LogToScreen($"ERROR at ReportEvent: {e.Message}");
+            }
+
+            // Call JavaScript bridge for Telegram Stars
+#if UNITY_WEBGL && !UNITY_EDITOR
+            try
+            {
+                LogToScreen("Step 3: WEBGL build → Calling JS BuyAgentWithStars()");
+                BuyAgentWithStars();
+                LogToScreen("Step 4: JS call returned (no exception)");
+            }
+            catch (System.Exception e)
+            {
+                LogToScreen($"ERROR calling JS: {e.GetType().Name}: {e.Message}");
+            }
+#else
+            LogToScreen("Step 3: EDITOR build → Calling RewardAgent() directly");
+            RewardAgent();
+#endif
+        }
+
+        [System.Runtime.InteropServices.DllImport("__Internal")]
+        private static extern void BuyAgentWithStars();
+
+        /// <summary>
+        /// Called from JS via SendMessage('Canvas-UIManger', 'RewardAgent') after successful payment.
+        /// </summary>
+        public void RewardAgent()
+        {
+            LogToScreen("=== RewardAgent CALLED ===");
+            try
+            {
+                LogToScreen($"Agent count BEFORE: {GameData.Agent.Value}");
+                GameManager.Instance.ReportEvent(
+                    "GIVE_AGENT",
+                    new Dictionary<string, string>() { { "REWARD_AGENT", $"{1}" } }
+                );
+                GameData.Agent.Value++;
+                LogToScreen($"Agent count AFTER: {GameData.Agent.Value}");
+                ClosePopup(agentBoosterPanel);
+                LogToScreen("RewardAgent completed successfully");
+            }
+            catch (System.Exception e)
+            {
+                LogToScreen($"ERROR in RewardAgent: {e.Message}");
+            }
         }
 
         void OpenPopup(VayuPopup popup, bool showCoinPanel = false)
